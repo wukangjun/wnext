@@ -1,11 +1,13 @@
-/**
- * onLoad((opts) => {})
- */
 export type hookCallback = (opts?: any) => void
 
 export const lifetimeMap: Map<string, Set<hookCallback>> = new Map()
 
-function createLifetime(name: string) {
+/**
+ * 追踪生命周期函数到集合
+ * 
+ * @param name
+ */
+function trackLifetime(name: string) {
     return function lifetime(fn: hookCallback) {
         if (!lifetimeMap.has(name)) {
             lifetimeMap.set(name, new Set())
@@ -15,7 +17,5 @@ function createLifetime(name: string) {
     }
 }
 
-export const onLoad = createLifetime('onLoad')
-export const onShow = createLifetime('onShow')
-
-// export const lifetimes = ['onLoad', 'onShow', 'onReady', 'onPullDownRefresh']
+export const onLoad = trackLifetime('onLoad')
+export const onShow = trackLifetime('onShow')
