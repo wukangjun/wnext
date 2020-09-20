@@ -1,0 +1,4 @@
+
+const LIFETIMES: string[] = [
+    'onLoad'
+]
