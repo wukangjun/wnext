@@ -25,6 +25,10 @@ npm install typescript -D
 yarn tsc --init
 ```
 ### eslint
+下载eslint库
+```
+npm i eslint -D
+```
 
 ### jest测试
 
