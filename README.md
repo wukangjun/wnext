@@ -31,7 +31,9 @@ npm i eslint -D
 ```
 
 ### jest测试
-
+```
+npm i jest ts-jest -D
+```
 ### gitHooks
 
 

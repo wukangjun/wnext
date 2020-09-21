@@ -5,7 +5,7 @@
   "keywords": [
     "functional"
   ],
-  "author": "xiaoxiong77 <17601397715@163.com>",
+  "author": "wukangjun",
   "homepage": "",
   "license": "MIT",
   "main": "dist/index.js",
@@ -13,6 +13,9 @@
   "directories": {
     "lib": "lib",
     "test": "__tests__"
+  },
+  "buildOptions": {
+    "global": true
   },
   "files": [
     "dist"
@@ -22,5 +25,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@vue/reactivity": "^3.0.0"
   }
 }

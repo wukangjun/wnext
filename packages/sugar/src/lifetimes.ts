@@ -1,4 +1,4 @@
-export type hookCallback = (opts?: any) => void
+type hookCallback = (opts?: any) => void
 
 export const lifetimeMap: Map<string, Set<hookCallback>> = new Map()
 
