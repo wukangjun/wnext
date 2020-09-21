@@ -3,24 +3,32 @@
 ## 目录
 - [lerna配置](https://www.jianshu.com/p/8b7e6025354b)
 - [配置](#configuration)
-    - rollup配置
+    - [typescript](#typescript)
     - eslint
     - jest测试
     - gitHooks
-    - typescript
+    - rollup配置
 - sugar项目
     - 
 
 ## lerna配置
 
-## <a id="configuration"配置</a>
+## <a id="configuration">配置</a>
 
-### rollup配置编写
-
+### <a id="typescript">typescript</a>
+下载typescript
+```
+npm install typescript -D
+```
+初始化ts配置
+```
+yarn tsc --init
+```
 ### eslint
 
 ### jest测试
 
 ### gitHooks
 
-### typescript ??? 是否
+
+### rollup配置编写

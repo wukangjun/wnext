@@ -8,13 +8,15 @@ export const lifetimeMap: Map<string, Set<hookCallback>> = new Map()
  * @param name
  */
 function trackLifetime(name: string) {
-    return function lifetime(fn: hookCallback) {
-        if (!lifetimeMap.has(name)) {
-            lifetimeMap.set(name, new Set())
-        }
-        const lifetimeSet = lifetimeMap.get(name)
-        lifetimeSet.add(fn)
+  return function lifetime(fn: hookCallback) {
+    if (!lifetimeMap.has(name)) {
+      lifetimeMap.set(name, new Set())
     }
+    const lifetimeSet = lifetimeMap.get(name)
+    if (lifetimeSet) {
+      lifetimeSet.add(fn)
+    }
+  }
 }
 
 export const onLoad = trackLifetime('onLoad')
