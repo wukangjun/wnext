@@ -3,6 +3,7 @@ import ts from 'rollup-plugin-typescript2'
 import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
 
 const packagesDir = path.resolve(__dirname, 'packages')
 const packageDir = path.resolve(packagesDir, process.env.TARGET)
@@ -29,6 +30,11 @@ function createOptions(output) {
       exclude: ['**/__tests__', '**/examples']
     }
   })
+
+  if (isGlobal) {
+    output.name = packageOptions.name
+  }
+
   const external = isGlobal
     ? []
     : [
