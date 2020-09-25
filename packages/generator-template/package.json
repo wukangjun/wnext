@@ -14,7 +14,7 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "registry": "http://172.18.13.173:4873/"
@@ -30,6 +30,10 @@
     "url": "https://github.com/wukangjun/wnext/issues"
   },
   "dependencies": {
+    "lodash": "^4.17.20",
     "@vue/compiler-dom": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.161"
   }
 }

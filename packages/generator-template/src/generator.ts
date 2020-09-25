@@ -1,13 +1,18 @@
-import { baseCompile, RootNode, AttributeNode, DirectiveNode, TemplateChildNode, BaseElementNode, NodeTypes, ElementNode } from "@vue/compiler-dom"
+import { baseParse, RootNode, AttributeNode, DirectiveNode, NodeTypes, ElementNode } from "@vue/compiler-dom"
 import { generatorProps } from "./transforms"
-import { directiveTransform } from "./transforms/directiveTransform"
+import { transformElement } from "./transforms/transformElement"
+import { transformInterpolation, transfromText } from "./transforms/transformText"
 
 
 export interface generateOptions {
+  prefix?: string
+  onPrefix?: string
   replacements?: ReplacementsMap
 }
 
 export interface TplgenContext {
+  prefix: string;
+  onPrefix: string;
   replacements: ReplacementsMap
   source: string
   tpl: string
@@ -19,16 +24,16 @@ export interface TplgenContext {
   repeat(n: number): void
 }
 
+export type PropNode = AttributeNode | DirectiveNode
 export type ReplacementName = 'ifReplacement' | 'forReplacement'
-export type ReplacementHook = (prop: AttributeNode | DirectiveNode, context: TplgenContext) => void
-
-export enum PropsNameTypes {
-  IF,
-  FOR
-}
+export type ReplacementHook = (prop: PropNode, context: TplgenContext) => void
 
 export interface ReplacementsMap {
   ifReplacement?: ReplacementHook
+  bindReplacement?: ReplacementHook
+  forReplacement?: ReplacementHook
+  attrReplacement?: ReplacementHook
+  onReplacement?: ReplacementHook
 }
 
 function addPrefix(value: string) {
@@ -46,9 +51,13 @@ function addBraces(exp: string) {
 function createTemplateContext(
   ast: RootNode,
   {
+    prefix = 'v-',
+    onPrefix= 'bind',
     replacements = {}
   }: generateOptions): TplgenContext {
   const context = {
+    prefix,
+    onPrefix,
     replacements,
     source: ast.loc.source,
     tpl: '',
@@ -73,15 +82,8 @@ function createTemplateContext(
   return context
 }
 
-function generateElement(node: ElementNode, context: TplgenContext) {
-  context.push(`<${node.tag} `)
-  generatorProps(node, context)
-}
-
-function traverseForTemplate(node: any, context: TplgenContext): string {
-  if (!node) return context.tpl
-
-  if (node.children && node.children.length) {
+function traverseForTemplateChild(node: any, context: TplgenContext) {
+  if (node.children.length) {
     node.children.forEach((child: any, index: number) => {
       const currentSize = index + 1
       traverseForTemplate(child, context)
@@ -89,13 +91,25 @@ function traverseForTemplate(node: any, context: TplgenContext): string {
         context.newline()
       }
     })
-  } else {
-    switch (node.type) {
-      case NodeTypes.ELEMENT /* 元素标签 */:
-        generateElement(node, context)
-        break;
-      
-    }
+  }
+}
+
+function traverseForTemplate(node: any, context: TplgenContext): string {
+  if (!node) return context.tpl
+
+  switch (node.type) {
+    case NodeTypes.ROOT /* 根节点 */:
+      traverseForTemplateChild(node, context)
+      break;
+    case NodeTypes.ELEMENT /* 元素标签 */:
+      transformElement(node, context, traverseForTemplateChild)
+      break;
+    case NodeTypes.TEXT /* 文本标签 */:
+      transfromText(node, context)
+      break;
+    case NodeTypes.INTERPOLATION /* 插值表达式 */:
+      transformInterpolation(node.content, context)
+      break;
   }
   return context.tpl
 }
@@ -106,6 +120,6 @@ function generateTemplate(ast: RootNode, options: generateOptions): string {
 }
 
 export function generate(template: string, options?: generateOptions) {
-  const { ast } = baseCompile(template)
-  return generateTemplate(ast, options || {})
+  const rootNode = baseParse(template)
+  return generateTemplate(rootNode, options || {})
 }

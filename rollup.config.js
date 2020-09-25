@@ -18,13 +18,13 @@ const outputOptions = {
 
 function createOptions(output) {
   const isGlobal = packageOptions.global
-
   const tsPlugin = ts({
     tsconfig: path.resolve(__dirname, 'tsconfig.json'),
-    cacheRoot: path.resolve(__dirname, 'node_modules/.rts_cache'),
+    //cacheRoot: path.resolve(__dirname, 'node_modules/.rts_cache'),
     tsconfigOverride: {
       compilerOptions: {
-        declaration: true
+        declaration: true,
+        declarationDir: resolvePackage('types')
       },
       include: ['packages/**/src', 'packages/**/types'],
       exclude: ['**/__tests__', '**/examples']

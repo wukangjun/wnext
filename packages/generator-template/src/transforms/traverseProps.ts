@@ -3,7 +3,13 @@ import { TplgenContext } from "../generator";
 import { attributeTransform } from "./attributeTransform";
 import { directiveTransform } from "./directiveTransform";
 
-export function generatorProps(node: ElementNode, context: TplgenContext) {
+/**
+ * 遍历当前节点上的所有属性props
+ * 
+ * @param node 
+ * @param context 
+ */
+export function traverseProps(node: ElementNode, context: TplgenContext) {
   if (node.props.length) {
     node.props.forEach(prop => {
       switch (prop.type) {
