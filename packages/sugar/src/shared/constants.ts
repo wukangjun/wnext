@@ -1,4 +1,4 @@
 
-const LIFETIMES: string[] = [
+const LIFE_TIMES: string[] = [
     'onLoad'
 ]
