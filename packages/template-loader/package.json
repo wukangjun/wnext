@@ -1,0 +1,29 @@
+{
+  "name": "@wnext/template-loader",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "keywords": [
+    "webpack"
+  ],
+  "author": "吴康俊 <wukangjun@innotechx.com>",
+  "homepage": "https://github.com/wukangjun/wnext#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "publishConfig": {
+    "registry": "http://172.18.13.173:4873/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wukangjun/wnext.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/wukangjun/wnext/issues"
+  },
+  "dependencies": {
+    "@wnext/generator-template": "^1.0.0",
+    "qs": "^6.9.4"
+  }
+}
