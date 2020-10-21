@@ -1,9 +1,17 @@
+import { mountComponent, WxComponentInstance, ComponentOptions } from './component'
+import { extend, baseObjectDefinePropertyOptions } from './shared/utils'
 
-export {
-  onLoad,
-  onShow
-} from './lifetimes'
+export * from './lifetimes'
 
-export {
-  createApp
-} from './renderer'
+export function createApp(options: ComponentOptions) {  
+  options.methods = options.methods || {}
+  Object.defineProperty(options.methods, 'onLoad', extend({}, baseObjectDefinePropertyOptions, {
+    value: function() {
+      const instance = this as unknown as WxComponentInstance
+      mountComponent(instance, options)
+      console.log(this)
+    }
+  }))
+
+  return Component(options)
+}
